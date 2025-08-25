@@ -1,4 +1,5 @@
-from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
+from langchain_google_genai.chat_models import ChatGoogleGenerativeAI
+from langchain_google_gensi.embeddings import GoogleGenerativeAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
@@ -126,5 +127,6 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
