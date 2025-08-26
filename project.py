@@ -26,6 +26,9 @@ if "vector_store" not in st.session_state:
 # Vector store Creation
 
 def update_vectorestore(story_text,embedding,vector_store):
+    if not story_text.strip():  # ✅ ensure not empty
+        st.warning("Skipping empty story chunk")
+        return vector_store
     splitter=RecursiveCharacterTextSplitter(chunk_size=400,chunk_overlap=50)
     docs=splitter.split_documents([Document(page_content=story_text)])
     if not docs:
@@ -124,5 +127,6 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
