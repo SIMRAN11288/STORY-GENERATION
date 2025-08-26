@@ -26,9 +26,9 @@ if "vector_store" not in st.session_state:
     
 # Vector store Creation
 
-def update_vectorestore(story_text,embedding,vector_store):
+def update_vectorestore(new_text,embedding,vector_store):
     splitter=RecursiveCharacterTextSplitter(chunk_size=400,chunk_overlap=50)
-    docs=splitter.split_documents([Document(page_content=story_text)])
+    docs=splitter.split_documents([Document(page_content=new_text)])
     if not docs:
         st.write("No text generated")
         return vector_store
@@ -76,7 +76,6 @@ def generate_continuations():
     for part in response.content.split("\n")   # 1
     if part.strip() and (part.strip()[0].isdigit())  # 2
         ]
-    st.session_state.vector_store=update_vectorestore(" ".join(st.session_state.story),embedding,st.session_state.vector_store)
     st.session_state.continuations=continuations
 #calling 1st continuations
 if initial_plot and not st.session_state.continuations:
@@ -120,12 +119,13 @@ elif choice=="enter 1/2/3 to choose story continuation option":
             # Remove headings in bold (like **The Dark Forest**)
             selected = re.sub(r"^\*\*.*?\*\*\s*", "", selected)
             st.session_state.story.append(selected)
-            st.session_state.vector_store=update_vectorestore(" ".join(st.session_state.story),embedding,st.session_state.vector_store)
+            st.session_state.vector_store=update_vectorestore(selected,embedding,st.session_state.vector_store)
             generate_continuations()
 
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
 
