@@ -60,7 +60,6 @@ st.session_state.tone=st.text_input('Tone should be')
 initial_plot=st.text_input('Provide your initial plot of story generation')
 if initial_plot and not st.session_state.story:
     st.session_state.story.append(initial_plot)
-st.session_state.story.append(initial_plot)
 
 def generate_continuations():
     prompt1=PromptTemplate(template=
@@ -127,6 +126,7 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
 
