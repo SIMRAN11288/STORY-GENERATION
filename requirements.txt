@@ -1,7 +1,7 @@
 streamlit
 langchain
 langchain-google-genai
-langchain-google-genai google-generativeai
+google-generativeai
 langchain-community
 faiss-cpu
 python-dotenv
