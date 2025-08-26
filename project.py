@@ -1,5 +1,4 @@
-from langchain_google_genai import ChatGoogleGenerativeAI
-from langchain_google_genai import GoogleGenerativeAIEmbeddings
+from langchain_google_genai import ChatGoogleGenerativeAI, GoogleGenerativeAIEmbeddings
 from langchain.text_splitter import RecursiveCharacterTextSplitter
 from dotenv import load_dotenv
 from langchain_core.prompts import PromptTemplate
@@ -26,9 +25,9 @@ if "vector_store" not in st.session_state:
     
 # Vector store Creation
 
-def update_vectorestore(new_text,embedding,vector_store):
+def update_vectorestore(story_text,embedding,vector_store):
     splitter=RecursiveCharacterTextSplitter(chunk_size=400,chunk_overlap=50)
-    docs=splitter.split_documents([Document(page_content=new_text)])
+    docs=splitter.split_documents([Document(page_content=story_text)])
     if not docs:
         st.write("No text generated")
         return vector_store
@@ -125,10 +124,5 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
-
-
-
-
-
 
 
