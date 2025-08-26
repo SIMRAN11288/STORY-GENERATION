@@ -84,8 +84,6 @@ def generate_continuations():
         ]
     st.session_state.continuations=continuations
 #calling 1st continuations
-if initial_plot and not st.session_state.continuations:
-    generate_continuations() 
 
 choice=st.radio("Your preference:",["enter 1/2/3 to choose story continuation option",
         "Choose stop to quit","answer a question from selected story only","get meaning"],key='select1')
@@ -131,6 +129,7 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
 
