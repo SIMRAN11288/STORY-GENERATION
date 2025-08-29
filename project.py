@@ -46,7 +46,7 @@ def ask_questions(question,vector_store):
     qa=RetrievalQA.from_chain_type(llm=llm,retriever=retriever)
     return qa.invoke(question)
 
-def dict(word):
+def dictionary(word):
     url=f"https://api.dictionaryapi.dev/api/v2/entries/en/{word}"
     req=requests.get(url)
     if req.status_code==200:
@@ -58,15 +58,6 @@ st.title("STORY GENERATION")
 
 st.session_state.genre=st.text_input('Tell your Genre for story')
 st.session_state.tone=st.text_input('Tone should be')
-
-initial_plot=st.text_input('Provide your initial plot of story generation')
-if "generated_once" not in st.session_state:
-    st.session_state.generated_once = False
-
-if initial_plot and not st.session_state.story:
-    st.session_state.story.append(initial_plot)
-    st.session_state.generated_once = True
-    generate_continuations()  
 
 def generate_continuations():
     prompt1=PromptTemplate(template=
@@ -85,6 +76,16 @@ def generate_continuations():
         ]
     st.session_state.continuations=continuations
 #calling 1st continuations
+initial_plot=st.text_input('Provide your initial plot of story generation')
+if "generated_once" not in st.session_state:
+    st.session_state.generated_once = False
+
+if initial_plot and not st.session_state.story:
+    st.session_state.story.append(initial_plot)
+    st.session_state.generated_once = True
+    st.session_state.vector_store = update_vectorestore(initial_plot, embedding, st.session_state.vector_store)
+    generate_continuations()  
+
 
 choice=st.radio("Your preference:",["enter 1/2/3 to choose story continuation option",
         "Choose stop to quit","answer a question from selected story only","get meaning"],key='select1')
@@ -95,7 +96,7 @@ if choice=="Choose stop to quit":
 elif choice=='get meaning':
     word=st.text_input("Enter the word to get its meaning")
     if st.button('get meaning'):
-        meaning=dict(word)
+        meaning=dictionary(word)
         display=f'{word} menaing: {meaning}'
         st.write(display)
         
@@ -120,7 +121,7 @@ elif choice=="enter 1/2/3 to choose story continuation option":
         if st.button("confirm choice"):
             selected=st.session_state.continuations[selected_num-1]
             #Removing numbering
-            selected=selected.lstrip("(1234567890).").strip()
+            selected = re.sub(r"^\d+\.\s*", "", selected).strip()
             # Remove headings in bold (like **The Dark Forest**)
             selected = re.sub(r"^\*\*.*?\*\*\s*", "", selected)
             st.session_state.story.append(selected)
@@ -130,6 +131,7 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
 
