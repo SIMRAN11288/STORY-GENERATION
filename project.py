@@ -65,7 +65,7 @@ if "generated_once" not in st.session_state:
 
 if initial_plot and not st.session_state.story:
     st.session_state.story.append(initial_plot)
-     st.session_state.generated_once = True
+    st.session_state.generated_once = True
 
 def generate_continuations():
     prompt1=PromptTemplate(template=
@@ -129,6 +129,7 @@ elif choice=="enter 1/2/3 to choose story continuation option":
 final_story=" ".join(st.session_state.story)
 st.write("Final Story")
 st.success(final_story)
+
 
 
 
