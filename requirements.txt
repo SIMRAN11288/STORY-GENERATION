@@ -6,3 +6,8 @@ langchain-community
 faiss-cpu
 python-dotenv
 requests
+kagglehub                                                         
+pandas                                                      
+numpy
+scikit-learn 
+xgboost
