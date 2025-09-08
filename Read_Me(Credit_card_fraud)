@@ -1,4 +1,5 @@
 Credit card fraud detection
 Objective: Identify fraudulent transactions using anomaly detection.
 Tools: Python, Scikit-Learn, XGBoost, Pandas
-Demo-> 
+Demo->   https://credit-card-fraud-cegyprigl7hgumqhwtftkh.streamlit.app/
+Enter time (after first transaction) and amount
